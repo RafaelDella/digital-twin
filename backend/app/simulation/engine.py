@@ -16,9 +16,9 @@ from typing import Optional
 CACHE_DIR = Path(__file__).parent.parent.parent / "cache"
 CACHE_DIR.mkdir(exist_ok=True)
 
-# Center of Sé, São Paulo
-CENTER_LAT = -23.5505
-CENTER_LNG = -46.6333
+# Center of Curitiba, Paraná
+CENTER_LAT = -25.4284
+CENTER_LNG = -49.2733
 GRID_SIZE = 20        # 20×20 grid ≈ 400 intersections
 BLOCK_DEG = 0.0012    # ~130 m between intersections
 
@@ -37,7 +37,7 @@ class TrafficGraph:
         # Try real data
         try:
             import osmnx as ox
-            place = place or "Sé, São Paulo, Brazil"
+            place = place or "Curitiba, Paraná, Brazil"
             dist = dist or 2000
             safe_name = place.replace(" ", "_").replace(",", "")
             cache_file = CACHE_DIR / f"graph_{safe_name}_{dist}.graphml"

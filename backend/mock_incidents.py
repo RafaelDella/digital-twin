@@ -9,9 +9,9 @@ import time
 
 API = "http://localhost:8000/api"
 
-# Approximate bounds of Sé, São Paulo downtown
-LAT_MIN, LAT_MAX = -23.560, -23.540
-LNG_MIN, LNG_MAX = -46.645, -46.625
+# Approximate bounds of Curitiba downtown
+LAT_MIN, LAT_MAX = -25.440, -25.415
+LNG_MIN, LNG_MAX = -49.285, -49.260
 
 TYPES = ["accident", "construction", "flooding", "blocked_road", "heavy_traffic"]
 SEVERITIES = ["low", "medium", "high", "critical"]

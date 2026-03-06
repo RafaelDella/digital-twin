@@ -8,8 +8,8 @@ import { fetchJSON } from './services/api';
 import type { Incident, SimulationResult, NetworkStats } from './types';
 import './App.css';
 
-// Default center: Sé, São Paulo
-const DEFAULT_CENTER: [number, number] = [-23.5505, -46.6333];
+// Default center: Curitiba, Paraná
+const DEFAULT_CENTER: [number, number] = [-25.4284, -49.2733];
 
 type ClickMode = 'origin' | 'destination' | 'block_start' | 'block_end' | null;
 
