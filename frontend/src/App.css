@@ -738,3 +738,18 @@ body,
     border-top: 1px solid var(--border-glass);
   }
 }
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+
+select, input {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+}
+select option { background: var(--bg-secondary); }
+select:focus, input:focus { outline: none; border-color: var(--accent-cyan); }
+

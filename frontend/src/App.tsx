@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import MapView from './components/MapView';
 import IncidentPanel from './components/IncidentPanel';
 import SimulationPanel from './components/SimulationPanel';
+import DisasterPanel from './components/DisasterPanel';
 import StatsBar from './components/StatsBar';
 import { useWebSocket } from './hooks/useWebSocket';
 import { fetchJSON } from './services/api';
@@ -11,7 +12,7 @@ import './App.css';
 // Default center: Curitiba, Paraná
 const DEFAULT_CENTER: [number, number] = [-25.4284, -49.2733];
 
-type ClickMode = 'origin' | 'destination' | 'block_start' | 'block_end' | null;
+type ClickMode = string | null;
 
 function App() {
   const [incidents, setIncidents] = useState<Incident[]>([]);
@@ -19,7 +20,7 @@ function App() {
   const [simulationResult, setSimulationResult] = useState<SimulationResult | null>(null);
   const [networkStats, setNetworkStats] = useState<NetworkStats | null>(null);
   const [clickMode, setClickMode] = useState<ClickMode>(null);
-  const [activeTab, setActiveTab] = useState<'incidents' | 'simulation'>('incidents');
+  const [activeTab, setActiveTab] = useState<'incidents' | 'simulation' | 'disasters'>('incidents');
   const [center, setCenter] = useState<[number, number]>(DEFAULT_CENTER);
   const [graphLoading, setGraphLoading] = useState(true);
 
@@ -55,8 +56,10 @@ function App() {
 
   const handleMapClick = useCallback(
     (lat: number, lng: number) => {
-      if (clickMode && (window as any).__simPanelSetPoint) {
+      if (clickMode && ['origin', 'destination', 'block_start', 'block_end'].includes(clickMode) && (window as any).__simPanelSetPoint) {
         (window as any).__simPanelSetPoint(lat, lng);
+      } else if (clickMode && clickMode.startsWith('spawn') && (window as any).__disasterPanelSetPoint) {
+        (window as any).__disasterPanelSetPoint(lat, lng);
       }
     },
     [clickMode]
@@ -124,17 +127,30 @@ function App() {
             >
               🧪 Simulação
             </button>
+            <button
+              className={activeTab === 'disasters' ? 'active' : ''}
+              onClick={() => setActiveTab('disasters')}
+            >
+              ⚠️ Desastres
+            </button>
           </nav>
           <div className="sidebar-content">
-            {activeTab === 'incidents' ? (
+            {activeTab === 'incidents' && (
               <IncidentPanel
                 incidents={incidents}
                 connected={connected}
                 onResolve={handleResolve}
               />
-            ) : (
+            )}
+            {activeTab === 'simulation' && (
               <SimulationPanel
                 onSimulationResult={setSimulationResult}
+                onClickModeChange={setClickMode}
+                clickMode={clickMode}
+              />
+            )}
+            {activeTab === 'disasters' && (
+              <DisasterPanel
                 onClickModeChange={setClickMode}
                 clickMode={clickMode}
               />

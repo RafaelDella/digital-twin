@@ -2,12 +2,10 @@ import { useState } from 'react';
 import type { SimulationResult } from '../types';
 import { fetchJSON } from '../services/api';
 
-type ClickMode = 'origin' | 'destination' | 'block_start' | 'block_end' | null;
-
 interface Props {
   onSimulationResult: (result: SimulationResult | null) => void;
-  onClickModeChange: (mode: ClickMode) => void;
-  clickMode: ClickMode;
+  onClickModeChange: (mode: string | null) => void;
+  clickMode: string | null;
 }
 
 export default function SimulationPanel({
@@ -18,7 +16,7 @@ export default function SimulationPanel({
   const [origin, setOrigin] = useState<[number, number] | null>(null);
   const [destination, setDestination] = useState<[number, number] | null>(null);
   const [blockStart, setBlockStart] = useState<[number, number] | null>(null);
-  const [blockEnd, setBlockEnd] = useState<[number, number] | null>(null);
+  const [, setBlockEnd] = useState<[number, number] | null>(null);
   const [blocks, setBlocks] = useState<
     { start_lat: number; start_lng: number; end_lat: number; end_lng: number; label: string }[]
   >([]);
